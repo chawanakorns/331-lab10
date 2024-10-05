@@ -8,5 +8,5 @@ public interface EventDao {
     Page<Event> getEvents(Integer pageSize, Integer page);
     Event getEvent(Long id);
     Event save(Event event);
-    Page<Event> getEvents(String name, Pageable page);
+    Page<Event> getEvents(String name, String description, Pageable page);
 }
