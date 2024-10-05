@@ -26,9 +26,13 @@ public class EventDaoDbImpl implements EventDao {
         return eventRepository.findAll(PageRequest.of(page != null ? page - 1 : 0, pageSize));
     }
 
-    // Implementing the method for title and description search
     @Override
     public Page<Event> getEvents(String title, String description, Pageable page) {
+        return eventRepository.findByTitleContainingOrDescriptionContaining(title, description, page);
+    }
+
+    @Override
+    public Page<Event> getEventsAnd(String title, String description, Pageable page) {
         return eventRepository.findByTitleContainingAndDescriptionContaining(title, description, page);
     }
 
