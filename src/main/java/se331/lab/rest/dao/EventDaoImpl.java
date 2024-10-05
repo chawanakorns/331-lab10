@@ -5,8 +5,10 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import se331.lab.rest.entity.Event;
+import se331.lab.rest.repository.EventRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +16,12 @@ import java.util.List;
 @Repository
 @Profile("manual")
 public class EventDaoImpl implements EventDao {
+    private final EventRepository eventRepository;
     List<Event> eventList;
+
+    public EventDaoImpl(EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
+    }
 
     @PostConstruct
     public void init() {
@@ -104,5 +111,10 @@ public class EventDaoImpl implements EventDao {
         event.setId(eventList.get(eventList.size()-1).getId()+1);
         eventList.add(event);
         return event;
+    }
+
+    @Override
+    public Page<Event> getEvents(String title, Pageable page) {
+        return eventRepository.findByTitle(title,page);
     }
 }

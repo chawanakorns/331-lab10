@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import se331.lab.rest.entity.Event;
 import se331.lab.rest.repository.EventRepository;
@@ -22,6 +23,11 @@ public class EventDaoDbImpl implements EventDao {
     @Override
     public Page<Event> getEvents(Integer pageSize, Integer page) {
         return eventRepository.findAll(PageRequest.of(page != null ? page - 1 : 0, pageSize));
+    }
+
+    @Override
+    public Page<Event> getEvents(String title, Pageable page) {
+        return eventRepository.findByTitle(title,page);
     }
 
     @Override
