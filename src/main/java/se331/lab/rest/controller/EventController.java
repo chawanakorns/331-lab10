@@ -37,16 +37,17 @@ public class EventController {
         page = page == null ? 1 : page;
         Page<Event> pageOutput;
 
-        if (organizerName != null) {
-            pageOutput = eventService.getEvents(title, description, organizerName, PageRequest.of(page - 1, perPage));
+        if (title == null && description == null && organizerName == null) {
+            pageOutput = eventService.getEvents(perPage, page);
         } else {
-            pageOutput = eventService.getEvents(title, description, PageRequest.of(page - 1, perPage));
+            pageOutput = eventService.getEvents(title, description, organizerName, PageRequest.of(page - 1, perPage));
         }
 
         HttpHeaders responseHeader = new HttpHeaders();
         responseHeader.set("x-total-count", String.valueOf(pageOutput.getTotalElements()));
         return new ResponseEntity<>(LabMapper.INSTANCE.getEventDto(pageOutput.getContent()), responseHeader, HttpStatus.OK);
     }
+
 
 
     @GetMapping("events/{id}")
