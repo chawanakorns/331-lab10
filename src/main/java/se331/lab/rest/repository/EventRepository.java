@@ -11,5 +11,5 @@ import java.util.List;
 public interface EventRepository extends JpaRepository<Event, Long> {
     Page<Event> findByTitleContainingOrDescriptionContaining(String title, String description, Pageable pageable);
     Page<Event> findByTitleContainingAndDescriptionContaining(String title, String description, Pageable pageable);
-    Page<Event> findByTitleContainingOrDescriptionContainingOrOrganizer_NameContaining(String title, String description, String organizerName, Pageable pageable);
+    Page<Event> findByTitleContainingOrDescriptionIgnoreCaseContainingOrOrganizer_NameIgnoreCaseContaining(String title, String description, String organizerName, Pageable pageable);
 }
