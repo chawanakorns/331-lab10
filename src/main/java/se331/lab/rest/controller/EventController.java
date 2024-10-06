@@ -30,15 +30,19 @@ public class EventController {
             @RequestParam(value = "_limit", required = false) Integer perPage,
             @RequestParam(value = "_page", required = false) Integer page,
             @RequestParam(value= "title", required = false) String title,
-            @RequestParam(value= "description", required = false) String description) {
+            @RequestParam(value= "description", required = false) String description,
+            @RequestParam(value= "organizerName", required = false) String organizerName) {
+
         perPage = perPage == null ? 3 : perPage;
         page = page == null ? 1 : page;
         Page<Event> pageOutput;
-        if (title == null && description == null) {
-            pageOutput = eventService.getEvents(perPage, page);
+
+        if (organizerName != null) {
+            pageOutput = eventService.getEvents(title, description, organizerName, PageRequest.of(page - 1, perPage));
         } else {
             pageOutput = eventService.getEvents(title, description, PageRequest.of(page - 1, perPage));
         }
+
         HttpHeaders responseHeader = new HttpHeaders();
         responseHeader.set("x-total-count", String.valueOf(pageOutput.getTotalElements()));
         return new ResponseEntity<>(LabMapper.INSTANCE.getEventDto(pageOutput.getContent()), responseHeader, HttpStatus.OK);

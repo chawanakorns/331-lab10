@@ -40,5 +40,10 @@ public class EventDaoDbImpl implements EventDao {
     public Event save(Event event) {
         return eventRepository.save(event);
     }
+
+    @Override
+    public Page<Event> getEvents(String title, String description, String organizerName, Pageable page) {
+        return eventRepository.findByTitleContainingOrDescriptionContainingOrOrganizer_NameContaining(title, description, organizerName, page);
+    }
 }
 
