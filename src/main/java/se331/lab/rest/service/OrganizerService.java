@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface OrganizerService {
     List<Organizer> getAllOrganizer();
     Optional<Organizer> getOrganizerById(Long id);
+    Organizer save(Organizer organizer);
 }
